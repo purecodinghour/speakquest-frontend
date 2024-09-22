@@ -1,33 +1,34 @@
 import React, { useState } from 'react';
-import { login } from '../services/api'; 
+import { useNavigate } from 'react-router-dom';
+import { login } from '../services/api';
 
-function Login() {
+function Login({ setIsLoggedIn }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(''); // 에러 메시지를 저장할 상태 추가
-    const [successMessage, setSuccessMessage] = useState(''); // 성공 메시지를 저장할 상태 추가
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(''); // 이전 에러 메시지 초기화
-        setSuccessMessage(''); // 이전 성공 메시지 초기화
+        setError('');
 
         try {
-            const response = await login(username, password); // 로그인 요청
+            const response = await login(username, password);
             console.log('Login successful:', response.data);
-            setSuccessMessage('Login successful!'); // 성공 메시지 설정
-            // 로그인 성공 처리 (예: 토큰 저장, 리다이렉트 등)
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('userId', response.data.userId); // 새로 추가
+            setIsLoggedIn(true);
+            navigate('/dashboard');
         } catch (error) {
             console.error('Login failed:', error.response ? error.response.data : error.message);
-            setError('Login failed. Please check your username and password.'); // 에러 메시지 설정
+            setError('Login failed. Please check your username and password.');
         }
     };
 
     return (
         <div>
             <h2>Login</h2>
-            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>} {/* 성공 메시지 표시 */}
-            {error && <p style={{ color: 'red' }}>{error}</p>} {/* 에러 메시지 표시 */}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="username">Username:</label>
