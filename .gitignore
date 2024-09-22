@@ -71,3 +71,10 @@ storybook-static/
 
 # 파이어베이스 관련
 .firebase/
+
+# Allow .env files to be tracked
+!.env
+
+# Allow docker-compose.yml and Dockerfile to be tracked
+!docker-compose.yml
+!Dockerfile

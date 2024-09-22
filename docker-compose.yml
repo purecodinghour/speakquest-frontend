@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  frontend:
+    build: .
+    image: ayounghappy/speakquest-frontend  # 명시적으로 이미지 이름 설정
+    ports:
+      - "3004:80"
+    environment:
+      - NODE_ENV=production
