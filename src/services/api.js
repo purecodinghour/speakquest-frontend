@@ -74,4 +74,18 @@ export const getAllQuests = async (userId) => {
   }
 };
 
+export const claimReward = (userId, questId) => {
+  return axios.put(`${API_BASE_URL}/user-quests/claimReward`, { user_id: userId, quest_id: questId });
+};
+
+
+export const getUserRewards = (userId) => {
+  return api.get(`/users/${userId}/rewards`);
+};
+
+export const getUser = async () => {
+  const response = await api.get('/users');
+  return response.data;
+};
+
 export default api;
